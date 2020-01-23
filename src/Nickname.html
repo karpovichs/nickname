@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Nickname Generator</title>
+    <link rel="stylesheet" href="nickname.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chance/1.0.13/chance.min.js"></script>
+  </head>
+  <body>
+    <script type="text/javascript">
+      const chance = new Chance();
+      let selectedLength = 0;
+
+      function generate() {
+        selectedLength = document.getElementById('length').value;
+        document.querySelector('.generator__copy').textContent = 'copy to clipboard'
+        document.getElementById('nickname').value = chance.word({ length:  selectedLength});
+        document.querySelector('.generator').classList.add('generator--generated');
+      }
+
+      function copyToClipboard() {
+        document.querySelector('.generator__copy').textContent = 'copied!'
+        document.getElementById('nickname').select();
+        document.execCommand("Copy");
+      }
+
+      function onRangeChange() {
+        selectedLength = document.getElementById('length').value;
+        document.getElementById('length-value').textContent = selectedLength;
+      }
+    </script>
+    <div class="generator">
+      <h1>Generate nickname</h1>
+      <div class="generator__result">
+        <input id="nickname" type="text" readonly value="copied">
+
+      </div>
+      <div class="generator__length">
+        <p>Length: <span id="length-value">64</span></p>
+        <input type="range" id="length" name="length" min="4" max="64" onInput="onRangeChange()" value="64">
+      </div>
+      <br>
+      <div class="generator__result">
+        <button onClick="copyToClipboard()" class="generator__copy">copy to clipboard</button>
+        <p>or</p>
+        <button onClick="generate()" class="generator__button">Regenerate</button>
+      </div>
+      <div class="generator__init">
+        <button onClick="generate()" class="generator__button">Generate</button>
+      </div>
+    </div>
+  </body>
+</html>
